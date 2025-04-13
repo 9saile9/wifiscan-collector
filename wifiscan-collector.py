@@ -104,7 +104,7 @@ class WifiScan:
             write_api = client.write_api(write_options=SYNCHRONOUS)
 
             for network in networks:
-                point = Point("wifi_scan").tag("mac", network["mac"])
+                point = Point("wifi_scan").tag("mac", network["mac"]).tag("device", self.device_name)
 
                 # Only add valid ESSID (hidden SSID is handled before reaching this point)
                 if "essid" in network:
