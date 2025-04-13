@@ -13,16 +13,17 @@ read -r DEVICE_NAME
 echo ""
 echo "Installing Docker and docker-compose..."
 curl -fsSL https://get.docker.com -o get-docker.sh
-sudo apt-get install -y docker-compose
 sudo sh get-docker.sh
+sudo apt-get install -y docker-compose
 sudo usermod -aG docker scannow
+
 # Enable Docker to start on boot
 sudo systemctl enable docker
 
 # --- Define file path ---
 COMPOSE_FILE="./docker-compose.yaml"
 
-# --- Replace placeholders in compose file ---
+# --- Check for compose file ---
 if [ ! -f "$COMPOSE_FILE" ]; then
   echo "Error: $COMPOSE_FILE does not exist."
   exit 1
@@ -33,12 +34,20 @@ cp "$COMPOSE_FILE" "$COMPOSE_FILE.bak"
 sed -i "s|<token>|$INFLUX_TOKEN|g" "$COMPOSE_FILE"
 sed -i "s|<name>|$DEVICE_NAME|g" "$COMPOSE_FILE"
 
-# --- Build and start container ---
+# --- Build Docker image (Optional) ---
+# Only needed if you want to build your own image
 echo ""
 echo "Building Docker image..."
 docker build -t 9saile9/wifiscan-collector:latest .
 
+# --- Start Docker container ---
+echo ""
 echo "Starting container..."
 docker-compose up -d
 
-echo "Setup complete. Container is running as '$DEVICE_NAME'"
+# --- Final messages ---
+echo "Setup complete. Container is running as '$DEVICE_NAME'."
+echo "Docker will automatically start on boot."
+
+# Optionally, verify the running container
+docker ps
