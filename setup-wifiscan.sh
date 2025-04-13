@@ -50,4 +50,5 @@ echo "Setup complete. Container is running as '$DEVICE_NAME'."
 echo "Docker will automatically start on boot."
 
 # Optionally, verify the running container
-docker ps
+sudo docker logs -f wifiscan-collector
+
