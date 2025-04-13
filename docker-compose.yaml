@@ -14,6 +14,6 @@ services:
       WIFISCAN_COLLECTOR_RETRY_DELAY: "2"
       WIFISCAN_COLLECTOR_SCAN_INTERVAL: "10"
       WIFISCAN_COLLECTOR_DEVICE_NAME: raspberrypi1
-    image: lux4rd0/wifiscan-collector:latest
+    image: 9saile9/wifiscan-collector:latest
     network_mode: host
     restart: unless-stopped
