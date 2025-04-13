@@ -23,6 +23,7 @@ class WifiScan:
             "WIFISCAN_COLLECTOR_INFLUXDB_BUCKET", "wifiscan"
         )
 
+        self.device_name = os.getenv("WIFISCAN_COLLECTOR_DEVICE_NAME", "unknown")
         # Set scan interval from environment variable
         self.scan_interval = int(os.getenv("WIFISCAN_COLLECTOR_SCAN_INTERVAL", 5))
 
