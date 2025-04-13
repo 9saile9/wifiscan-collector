@@ -1,0 +1,19 @@
+name: wifiscan-collector
+services:
+  wifiscan-collector:
+    cap_add:
+      - NET_ADMIN
+    container_name: wifiscan-collector
+    environment:
+      TZ: America/Chicago
+      WIFISCAN_COLLECTOR_INFLUXDB_BUCKET: wifiscan
+      WIFISCAN_COLLECTOR_INFLUXDB_ORG: Lux4rd0
+      WIFISCAN_COLLECTOR_INFLUXDB_TOKEN: <token>
+      WIFISCAN_COLLECTOR_INFLUXDB_URL: http://influxdb:8086
+      WIFISCAN_COLLECTOR_LOG_LEVEL: INFO
+      WIFISCAN_COLLECTOR_MAX_RETRIES: "3"
+      WIFISCAN_COLLECTOR_RETRY_DELAY: "2"
+      WIFISCAN_COLLECTOR_SCAN_INTERVAL: "10"
+    image: lux4rd0/wifiscan-collector:latest
+    network_mode: host
+    restart: unless-stopped
