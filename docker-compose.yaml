@@ -1,0 +1,19 @@
+services:
+  wifiscan-collector:
+    cap_add:
+      - NET_ADMIN
+    container_name: wifiscan-collector
+    environment:
+      TZ: America/Chicago
+      WIFISCAN_COLLECTOR_INFLUXDB_BUCKET: wifi_scan
+      WIFISCAN_COLLECTOR_INFLUXDB_ORG: esc_it
+      WIFISCAN_COLLECTOR_INFLUXDB_TOKEN: <token>
+      WIFISCAN_COLLECTOR_INFLUXDB_URL: https://influx.esc.srfprod.ch:8086
+      WIFISCAN_COLLECTOR_LOG_LEVEL: INFO
+      WIFISCAN_COLLECTOR_MAX_RETRIES: "3"
+      WIFISCAN_COLLECTOR_RETRY_DELAY: "2"
+      WIFISCAN_COLLECTOR_SCAN_INTERVAL: "10"
+      WIFISCAN_COLLECTOR_DEVICE_NAME: <name> 
+    image: 9saile9/wifiscan-collector:latest
+    network_mode: host
+    restart: unless-stopped
