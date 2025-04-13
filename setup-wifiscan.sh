@@ -38,12 +38,12 @@ sed -i "s|<name>|$DEVICE_NAME|g" "$COMPOSE_FILE"
 # Only needed if you want to build your own image
 echo ""
 echo "Building Docker image..."
-docker build -t 9saile9/wifiscan-collector:latest .
+sudo docker build -t 9saile9/wifiscan-collector:latest .
 
 # --- Start Docker container ---
 echo ""
 echo "Starting container..."
-docker-compose up -d
+sudo docker-compose up -d
 
 # --- Final messages ---
 echo "Setup complete. Container is running as '$DEVICE_NAME'."
