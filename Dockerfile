@@ -12,7 +12,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy the requirements file and the main Python script into the container
-COPY requirements.txt ./src/wifiscan-collector.py ./
+COPY requirements.txt ./wifiscan-collector.py ./
 
 # Upgrade pip and install the Python packages listed in requirements.txt
 RUN pip install --upgrade pip && \
