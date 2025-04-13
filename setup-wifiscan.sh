@@ -16,6 +16,8 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 sudo apt-get install -y docker-compose
 sudo sh get-docker.sh
 sudo usermod -aG docker scannow
+# Enable Docker to start on boot
+sudo systemctl enable docker
 
 # --- Define file path ---
 COMPOSE_FILE="./docker-compose.yaml"
