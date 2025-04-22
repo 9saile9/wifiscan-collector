@@ -3,6 +3,7 @@ import re
 import time
 import os
 import logging
+import socket
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 
@@ -26,6 +27,16 @@ class WifiScan:
         self.device_name = os.getenv("WIFISCAN_COLLECTOR_DEVICE_NAME", "unknown")
         # Set scan interval from environment variable
         self.scan_interval = int(os.getenv("WIFISCAN_COLLECTOR_SCAN_INTERVAL", 5))
+
+    def get_ip_address(self):
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            s.connect(("8.8.8.8", 80))
+            ip = s.getsockname()[0]
+            s.close()
+            return ip
+        except Exception:
+            return "0.0.0.0"
 
     def parse_iw_output(self, output):
         """Parse the output from the 'iw' scan command."""
@@ -104,7 +115,7 @@ class WifiScan:
             write_api = client.write_api(write_options=SYNCHRONOUS)
 
             for network in networks:
-                point = Point("wifi_scan").tag("mac", network["mac"]).tag("device", self.device_name)
+                point = Point("wifi_scan").tag("mac", network["mac"]).tag("device", self.device_name).tag("ip", self.ip_address)
 
                 # Only add valid ESSID (hidden SSID is handled before reaching this point)
                 if "essid" in network:
@@ -193,6 +204,8 @@ class WifiScan:
                 logging.warning("Scan took longer than the interval, skipping sleep")
 
             time.sleep(sleep_time)
+
+
 
 
 if __name__ == "__main__":
